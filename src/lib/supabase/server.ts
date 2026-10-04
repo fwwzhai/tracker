@@ -1,0 +1,30 @@
+import "server-only";
+import { createServerClient } from "@supabase/ssr";
+import { cookies } from "next/headers";
+
+export async function serverSupabase() {
+  const store = await cookies();
+  return createServerClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    {
+      cookies: {
+        getAll: () => store.getAll(),
+        setAll: (list) => {
+          try {
+            list.forEach(({ name, value, options }) => store.set(name, value, options));
+          } catch {
+            // called from a Server Component; proxy refreshes the session instead
+          }
+        },
+      },
+    },
+  );
+}
+
+/** Signed-in user for a route handler, or null. */
+export async function requireUser() {
+  const sb = await serverSupabase();
+  const { data } = await sb.auth.getUser();
+  return data.user ? { sb, user: data.user } : null;
+}

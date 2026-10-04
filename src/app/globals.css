@@ -1,0 +1,98 @@
+@import "tailwindcss";
+
+/* Calm editorial. Warm paper, near black ink, one deep green accent. */
+:root {
+  --bg: #f5f2ea;
+  --surface: #ece8de;
+  --ink: #1b1a17;
+  --muted: #625e55;
+  --line: #dcd6c8;
+  --accent: #1f5135;
+  --accent-ink: #f5f2ea;
+  --accent-soft: #d9e3da;
+  --warn: #a8661a;
+  --danger: #a23a2a;
+  color-scheme: light;
+}
+
+/* Dark: warm charcoal, not inverted. Accent lifted so it holds contrast on dark paper. */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #131411;
+    --surface: #1c1d19;
+    --ink: #ebe7dc;
+    --muted: #97938a;
+    --line: #2d2f29;
+    --accent: #8cc3a0;
+    --accent-ink: #10180f;
+    --accent-soft: #22332a;
+    --warn: #d8a14e;
+    --danger: #e27d68;
+    color-scheme: dark;
+  }
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-accent: var(--accent);
+  --color-accent-ink: var(--accent-ink);
+  --color-accent-soft: var(--accent-soft);
+  --color-warn: var(--warn);
+  --color-danger: var(--danger);
+  --font-sans: var(--font-ui);
+  --font-display: var(--font-serif);
+  --radius-sm: 6px;
+  --radius-md: 10px;
+}
+
+html,
+body {
+  background: var(--bg);
+  color: var(--ink);
+}
+
+body {
+  font-family: var(--font-ui), system-ui, sans-serif;
+  -webkit-tap-highlight-color: transparent;
+  overscroll-behavior-y: none;
+}
+
+.num {
+  font-family: var(--font-serif), Georgia, serif;
+  font-variant-numeric: tabular-nums lining-nums;
+  letter-spacing: -0.02em;
+}
+
+.label {
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition-duration: 0ms !important;
+    animation-duration: 0ms !important;
+  }
+}
+
+@keyframes sheet-in {
+  from { transform: translateY(16px); opacity: 0; }
+  to { transform: none; opacity: 1; }
+}
+@keyframes row-in {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: none; }
+}
+.anim-sheet { animation: sheet-in 180ms ease-out; }
+.anim-row { animation: row-in 160ms ease-out; }
